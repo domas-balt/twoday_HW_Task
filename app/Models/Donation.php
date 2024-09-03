@@ -36,4 +36,8 @@ class Donation{
     public function getDateTime(){
         return $this->dateTime;
     }
+
+    public function __toString(){
+        return "ID: " . $this->id . ", Donor Name: " . $this->donorName . ", Amount: " . $this->amount . ", Charity ID: " . $this->charityId . ", Date Time: " . $this->dateTime . "\n";
+    }
 }

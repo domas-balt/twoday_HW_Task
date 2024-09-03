@@ -32,4 +32,8 @@ class Charity{
     public function setRepresentativeEmail($representativeEmail){
         $this->representativeEmail = $representativeEmail;
     }
+
+    public function __toString(){
+        return "ID: " . $this->id . ", Name: " . $this->name . " Email: " . $this->representativeEmail . "\n";
+    }
 }

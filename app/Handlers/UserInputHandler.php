@@ -4,16 +4,19 @@ namespace Handlers;
 
 use Services\CharityService;
 use Services\DonationService;
+use Services\CSVImportService;
 
 class UserInputHandler{
     private $charityService;
     private $donationService;
     private $validationHandler;
+    private $csvImportService;
 
-    public function __construct(CharityService $charityService, DonationService $donationService, ValidationHandler $validationHandler){
+    public function __construct(CharityService $charityService, DonationService $donationService, ValidationHandler $validationHandler, CSVImportService $csvImportService){
         $this->charityService = $charityService;
         $this->donationService = $donationService;
         $this->validationHandler = $validationHandler;
+        $this->csvImportService = $csvImportService;
     }
 
     public function addCharity(){
@@ -36,7 +39,7 @@ class UserInputHandler{
         $donations = $this->donationService->getDonationsByCharityId($id);
 
         foreach($donations as $donation){
-            echo "ID: " . $donation->getId() . ", Donor Name: " . $donation->getDonorName() . ", Amount: " . $donation->getAmount() . " Charity ID: " . $donation->getCharityId() . ", Date Time: " . $donation->getDateTime() . "\n";
+            echo $donation;
         }
     }
 
@@ -47,7 +50,7 @@ class UserInputHandler{
             return;
         }
         foreach($charities as $charity){
-            echo "ID: " . $charity->getId() . ", Name: " . $charity->getName() . " Email: " . $charity->getRepresentativeEmail() . "\n";
+            echo $charity;
         }
     }
 
@@ -99,5 +102,24 @@ class UserInputHandler{
 
         $this->donationService->addDonation($donorName, $amount, $charityId, $dateTime);
         echo "Donation created successfully.\n";
+    }
+
+    public function importCharitiesFromCSV(){
+        echo "Enter the name of the CSV file from which you want to import the charities (include the extension, for example, charities.csv)\n";
+        $fileName = trim(fgets(STDIN));
+        $this->csvImportService->importCharitiesFromCSV($fileName);
+    }
+
+    public function displayHelp(){
+        echo "Available commands:\n";
+        echo " import_charities - Import charities from a CSV file. Charities must be stored in the 'Imports' folder and the data must be comma separated.\n";
+        echo " add_charity      - Add a new charity\n";
+        echo " view_charities   - View all charities\n";
+        echo " edit_charity     - Edit a charity\n";
+        echo " delete_charity   - Delete a charity\n";
+        echo " add_donation     - Add a new donation\n";
+        echo " view_donations   - View all donations\n";
+        echo " help             - Open this help message\n";
+        echo " exit             - Exit the application\n";
     }
 }

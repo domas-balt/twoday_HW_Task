@@ -41,4 +41,19 @@ class ValidationHandler{
         }
         return true;
     }
+
+    public function validateCharityData($name, $email){
+        $isValid = true;
+
+        if (empty($name) || empty($email)){
+            echo "Name and email cannot be empty.\n";
+            $isValid = false;
+        }
+
+        if (!$this->validateEmail($email)){
+            $isValid = false;
+        }
+
+        return $isValid;
+    }
 }

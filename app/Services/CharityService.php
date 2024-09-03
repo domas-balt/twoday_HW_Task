@@ -42,7 +42,7 @@ class CharityService {
         $initialCharityCount = count($this->charityArray);
 
         $this->charityArray = array_values(array_filter($this->charityArray, function($charity) use($id) {
-            return $charity->getId() !== $id;
+            return (int)$charity->getId() !== (int)$id;
         }));
 
         return count($this->charityArray) < $initialCharityCount;
